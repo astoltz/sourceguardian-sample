@@ -133,6 +133,7 @@ $licenseFileName = sg_demo_license_filename();
 $licensePath     = sg_demo_license_file_path();
 $licenseFound    = ($licensePath !== null);
 $buildId         = sg_demo_get_const('build_id');
+$edition         = sg_demo_get_const('edition');
 $macAddresses    = sg_demo_mac_addresses();
 
 // File info
@@ -173,6 +174,7 @@ if (isset($_GET['json'])) {
         ],
         'build' => [
             'build_id' => $buildId,
+            'edition'  => $edition,
         ],
         'file_info' => [
             'encoder'      => $encoderName,
@@ -333,6 +335,16 @@ if (isset($_GET['json'])) {
                     </dd>
                     <?php endif; ?>
 
+                    <!-- Edition -->
+                    <?php if ($edition !== null): ?>
+                    <dt class="col-5">Edition</dt>
+                    <dd class="col-7">
+                      <div class="input-group input-group-sm">
+                        <input type="text" class="form-control" readonly value="<?= htmlspecialchars($edition) ?>">
+                        <button class="btn btn-outline-secondary btn-copy" data-copy-text="<?= htmlspecialchars($edition, ENT_QUOTES) ?>">Copy</button>
+                      </div>
+                    </dd>
+                    <?php endif; ?>
                   </dl>
                 </div>
               </div>
@@ -342,7 +354,7 @@ if (isset($_GET['json'])) {
               <!-- Remote Verification URL -->
               <h6 class="text-muted text-uppercase small mb-2">Remote Verification URL</h6>
               <p>
-                Configure this as your <code>--remote-verification-url</code>.  
+                Configure this as your <code>--remote-verification-url</code>.
                 When the loader validates this script, it will request this URL.
               </p>
 
@@ -391,14 +403,13 @@ if (isset($_GET['json'])) {
                         <?= date(DATE_ATOM, (int)$expireDate) ?>
                         (<?= sg_demo_format_time_left($expireRemaining ?? 0) ?>)
                       <?php else: ?>
-                        <span class="text-muted">No expiry (or not defined)</span>
+                        <span class="text-muted">No expiry</span>
                       <?php endif; ?>
                     </td>
                   </tr>
                 </table>
               </div>
               <?php endif; ?>
-
             </div>
           </div>
         </div>
