@@ -29,7 +29,7 @@ jobs:
           8.3
           8.4
         entangle: 5
-        prepend-code: '@sg_header.php'
+        prepend-code: '@src/sg_header.php'
         keep-file-date: true
         no-default-starter: true
         projid: ${{ secrets.MAIN_PROJECT_ID }}
@@ -43,7 +43,7 @@ jobs:
     - name: Encode with SourceGuardian - sg_error_page.php
       uses: astoltz/sourceguardian-encode-action@master
       with:
-        source: sg_error_page.php
+        source: src/sg_error_page.php
         recursive: false
         destination: 'dst/src'
         phpversion: |
