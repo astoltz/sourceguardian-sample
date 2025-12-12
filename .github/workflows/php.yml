@@ -32,8 +32,8 @@ jobs:
         prepend-code: '@sg_header.php'
         keep-file-date: true
         no-default-starter: true
-        projid: ${{ secret.MAIN_PROJECT_ID }}
-        projkey: ${{ secret.MAIN_PROJECT_KEY }}
+        projid: ${{ secrets.MAIN_PROJECT_ID }}
+        projkey: ${{ secrets.MAIN_PROJECT_KEY }}
         external: sg_api_test.lic
         catch: ERR_ALL=sg_catchall
         const: |
@@ -53,8 +53,8 @@ jobs:
         entangle: 5
         keep-file-date: true
         no-default-starter: true
-        projid: ${{ secret.ERROR_PAGE_PROJECT_ID }}
-        projkey: ${{ secret.ERROR_PAGE_PROJECT_KEY }}
+        projid: ${{ secrets.ERROR_PAGE_PROJECT_ID }}
+        projkey: ${{ secrets.ERROR_PAGE_PROJECT_KEY }}
         const: |
           build_id=developer1
           license_file="sg_api_test.lic"
