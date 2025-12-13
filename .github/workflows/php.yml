@@ -16,22 +16,22 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
-        path: src/
+        path: checkout/
 
     - name: Encode with SourceGuardian
       uses: astoltz/sourceguardian-encode-action@master
       with:
-        source: 'src'
-        recursive: 0
+        source: 'checkout/src'
+        recursive: 2
         destination: 'dst'
         files_to_exclude:
-          src/.git/**
+          checkout/.git/**
         phpversion: |
           8.2
           8.3
           8.4
         entangle: 5
-        prepend-code: '@src/sg_header.php'
+        prepend-code: '@checkout/sg_header.php'
         keep-file-date: true
         no-default-starter: true
         projid: ${{ secrets.MAIN_PROJECT_ID }}
@@ -45,9 +45,9 @@ jobs:
     - name: Encode with SourceGuardian - sg_error_page.php
       uses: astoltz/sourceguardian-encode-action@master
       with:
-        source: src/sg_error_page.php
-        recursive: false
-        destination: 'dst/src'
+        source: checkout/sg_error_page.php
+        recursive: 1
+        destination: 'dst'
         phpversion: |
           8.2
           8.3
@@ -63,10 +63,10 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: base-application
-        path: src/
+        path: checkout/src/
 
     - name: Upload Artifact - sg-encoded
       uses: actions/upload-artifact@v4
       with:
         name: sg-encoded
-        path: dst/src/
+        path: dst/
