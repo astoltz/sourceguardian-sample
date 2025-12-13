@@ -10,4 +10,4 @@ RUN cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini && \
 	sed -i '1s/^/zend_extension=ixed.8.2.lin\n/' /usr/local/etc/php/php.ini && \
 	rm -Rf /loaders
 
-ADD src/ /var/www/html/
+ADD dst/ /var/www/html/

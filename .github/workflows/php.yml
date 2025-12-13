@@ -18,6 +18,14 @@ jobs:
       with:
         path: checkout/
 
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@f95db51fddba0c2d1ec667646a06c2ce06100226 # v3.0.0
+
+    - name: Prepare dst directory
+      run: |
+        test -d && rm -Rf dst/
+        cp checkout/Dockerfile.sg Dockerfile
+
     - name: Encode with SourceGuardian
       uses: astoltz/sourceguardian-encode-action@master
       with:
@@ -58,6 +66,30 @@ jobs:
         const: |
           build_id=developer1
           license_file="sg_api_test.lic"
+
+    - name: Log into registry
+      if: github.event_name != 'pull_request'
+      uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d # v3.0.0
+      with:
+        username: ${{ vars.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
+
+    - name: Extract Docker metadata
+      id: docker_meta
+      uses: docker/metadata-action@96383f45573cb7f253c731d3b3ab81c87ef81934 # v5.0.0
+      with:
+        images: astoltz/sourceguardian-sample
+
+    - name: Build and push Docker image
+      id: build-and-push
+      uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
+      with:
+        pull: true
+        push: ${{ github.event_name != 'pull_request' }}
+        tags: ${{ steps.docker_meta.outputs.tags }}
+        labels: ${{ steps.docker_meta.outputs.labels }}
+        cache-from: type=gha,scope=sourceguardian-sample
+        cache-to: type=gha,mode=max,scope=sourceguardian-sample
 
     - name: Upload Artifact - base
       uses: actions/upload-artifact@v4
