@@ -24,6 +24,8 @@ jobs:
         source: 'src'
         recursive: 0
         destination: 'dst'
+        files_to_exclude:
+          src/.git/**
         phpversion: |
           8.2
           8.3
@@ -53,8 +55,6 @@ jobs:
         entangle: 5
         keep-file-date: true
         no-default-starter: true
-        projid: ${{ secrets.ERROR_PAGE_PROJECT_ID }}
-        projkey: ${{ secrets.ERROR_PAGE_PROJECT_KEY }}
         const: |
           build_id=developer1
           license_file="sg_api_test.lic"
